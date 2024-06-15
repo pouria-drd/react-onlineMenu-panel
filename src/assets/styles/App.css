@@ -1,0 +1,18 @@
+/* ---------------------------------------------------------------------- */
+/* Scroll area */
+
+::-webkit-scrollbar {
+    @apply bg-gray-700 w-1 h-1;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+    @apply bg-gray-600 rounded-lg;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+    @apply bg-gray-600 rounded-lg;
+}
+
+* {
+    scroll-behavior: smooth;
+}

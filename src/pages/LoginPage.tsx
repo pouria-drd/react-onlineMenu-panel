@@ -7,9 +7,11 @@ import ROUTES from "../router/routes";
 import { useAuth } from "../contexts/AuthContext";
 import { REFRESH_KEY } from "../constance/constance";
 import { Button, Card, Input } from "../components/ui";
+import { useToast } from "../components/ui/toast/ToastProvider";
 
 function LoginPage() {
     const navigate = useNavigate();
+    const { showToast } = useToast();
     const { login, logout } = useAuth();
     const [searchParams] = useSearchParams();
 
@@ -48,8 +50,15 @@ function LoginPage() {
             } else {
                 navigate(ROUTES.DASHBOARD);
             }
+
+            showToast("خوش آمدید!", "success");
         } catch (error) {
-            console.error("Login failed", error); // Log error message if login fails
+            showToast(
+                "نام کاربری / رمز عبور نادرست  می‌باشد!",
+                "danger",
+                "خطا"
+            );
+            // console.error("Login failed", error); // Log error message if login fails
         }
         setIsAuthenticating(false);
     };

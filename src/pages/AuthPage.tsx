@@ -1,5 +1,6 @@
 import { useState, ChangeEvent } from "react";
-import { Button, Input } from "../components/ui";
+import { Button, Card, Input } from "../components/ui";
+
 import axiosInstance from "../axios/axiosInstance";
 
 function AuthPage() {
@@ -29,11 +30,8 @@ function AuthPage() {
     };
 
     return (
-        <div className="flex items-center justify-center h-svh">
-            <div
-                className="shadow flex flex-col items-center justify-center gap-2
-                rounded-lg mx-auto w-fit p-4">
-                <h1>Login</h1>
+        <div className="flex items-center justify-center min-h-svh">
+            <Card title="Login">
                 <Input
                     type="text"
                     name="username"
@@ -48,11 +46,10 @@ function AuthPage() {
                     onChange={handleInputChange}
                     placeholder="Password"
                 />
-                <Button onClick={handleLogin} className="w-full">
+                <Button className="w-full" onClick={handleLogin}>
                     Login
                 </Button>
-            </div>
-            +
+            </Card>
         </div>
     );
 }

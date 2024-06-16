@@ -1,10 +1,10 @@
-import React, { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes } from "react";
 
 import "./button.css";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     outlined?: boolean;
-    colorVariant?:
+    btnType?:
         | "primary"
         | "secondary"
         | "info"
@@ -15,17 +15,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
         | "warning";
 }
 
-const Button: React.FC<ButtonProps> = ({
-    colorVariant = "primary",
-    outlined,
-    ...props
-}) => {
-    const buttonVariant = colorVariant?.toLowerCase() || "primary";
+const Button = ({ btnType = "primary", outlined, ...props }: ButtonProps) => {
+    const colorVariant = btnType?.toLowerCase() || "primary";
     return (
         <button
             {...props}
             className={`custom-button base-btn-class ${
-                outlined ? `outlined-${buttonVariant}` : `${buttonVariant}`
+                outlined ? `outlined-${colorVariant}` : `${colorVariant}`
             } ${props.className}`}>
             {props.children}
         </button>

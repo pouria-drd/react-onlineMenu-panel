@@ -1,8 +1,8 @@
 .custom-button {
     &.base-btn-class {
         @apply transition-all hover:brightness-95 cursor-pointer
-      disabled:bg-opacity-70 disabled:cursor-not-allowed disabled:brightness-100
-      rounded-md  px-4 py-2 min-w-20;
+        font-yekanX disabled:bg-opacity-70 disabled:cursor-not-allowed disabled:brightness-100
+        rounded-md  px-4 py-2 min-w-20;
     }
 
     &.primary {

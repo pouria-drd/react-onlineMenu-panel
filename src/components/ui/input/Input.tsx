@@ -6,7 +6,10 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
 const Input = ({ ...props }: InputProps) => {
     return (
-        <input {...props} className={`my-custom-input ${props.className}`} />
+        <input
+            {...props}
+            className={`my-custom-input ss02 r2l ${props.className}`}
+        />
     );
 };
 

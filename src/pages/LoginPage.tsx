@@ -29,16 +29,17 @@ function LoginPage() {
                         `${import.meta.env.VITE_API_URL}auth/token/refresh/`,
                         { refresh }
                     );
+                    if (response.status === 200) {
+                        // Call login function with new access token and existing refresh token
+                        login(response.data.access, refresh);
 
-                    // Call login function with new access token and existing refresh token
-                    login(response.data.access, refresh);
-
-                    // Redirect to nextUrl if provided, otherwise navigate to dashboard
-                    const nextUrl = searchParams.get("next");
-                    if (nextUrl) {
-                        navigate(nextUrl);
-                    } else {
-                        navigate(ROUTES.DASHBOARD);
+                        // Redirect to nextUrl if provided, otherwise navigate to dashboard
+                        const nextUrl = searchParams.get("next");
+                        if (nextUrl) {
+                            navigate(nextUrl);
+                        } else {
+                            navigate(ROUTES.DASHBOARD);
+                        }
                     }
                 } catch (error) {
                     logout(); // Logout user if refresh token request fails

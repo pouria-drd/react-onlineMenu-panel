@@ -7,10 +7,15 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ nextUrl }: ProtectedRouteProps) => {
-    const { isAuthenticated } = useAuth();
+    const { isAuthorized } = useAuth();
+
+    if (isAuthorized === null) {
+        // Optionally render a loading spinner or a placeholder
+        return <div>Loading...</div>;
+    }
 
     // Check if authenticated, otherwise redirect to unauthorized or login page with nextUrl
-    if (!isAuthenticated) {
+    if (!isAuthorized) {
         return (
             <Navigate
                 to={
@@ -26,10 +31,3 @@ const ProtectedRoute = ({ nextUrl }: ProtectedRouteProps) => {
 };
 
 export default ProtectedRoute;
-
-// const refreshToken = localStorage.getItem(
-//     import.meta.env.VITE_REFRESH_KEY
-// );
-
-// if (!isAuthenticated && refreshToken) {
-// }

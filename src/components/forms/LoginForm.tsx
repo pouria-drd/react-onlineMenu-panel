@@ -38,17 +38,18 @@ const LoginForm = () => {
                 loginData
             );
 
-            // Call login function to update tokens and authentication status
-            login(response.data.access, response.data.refresh);
+            if (response.status === 200) {
+                // Call login function to update tokens and authentication status
+                login(response.data.access, response.data.refresh);
 
-            // Redirect to nextUrl if provided, otherwise navigate to dashboard
-            const nextUrl = searchParams.get("next");
-            if (nextUrl) {
-                navigate(nextUrl);
-            } else {
-                navigate(ROUTES.DASHBOARD);
+                // Redirect to nextUrl if provided, otherwise navigate to dashboard
+                const nextUrl = searchParams.get("next");
+                if (nextUrl) {
+                    navigate(nextUrl);
+                } else {
+                    navigate(ROUTES.DASHBOARD);
+                }
             }
-
             showToast("خوش آمدید!", "success");
         } catch (error) {
             showToast(

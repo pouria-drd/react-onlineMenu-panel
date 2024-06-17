@@ -25,6 +25,7 @@
 }
 
 body {
+    @apply font-yekanX;
     background-image: radial-gradient(#000000 0.5px, transparent 0.5px),
         radial-gradient(#000000 0.5px, var(--bg-color) 0.5px);
     background-size: 20px 20px;

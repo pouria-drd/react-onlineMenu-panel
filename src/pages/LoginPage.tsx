@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import axios from "axios";
 import ROUTES from "../router/routes";
+import SpinnerCard from "../components/ui/spinner/SpinnerCard";
 
 import { useAuth } from "../contexts/AuthContext";
 import { REFRESH_KEY } from "../constance/constance";
@@ -15,6 +16,7 @@ function LoginPage() {
     const { login, logout } = useAuth();
     const [searchParams] = useSearchParams();
 
+    const [isValidating, setIsValidating] = useState<boolean>(false);
     const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
 
     const [loginData, setLoginData] = useState<LoginData>({
@@ -65,7 +67,7 @@ function LoginPage() {
 
     // Effect to check for refresh token on component mount
     useEffect(() => {
-        setIsAuthenticating(true);
+        setIsValidating(true);
 
         const refresh = localStorage.getItem(REFRESH_KEY); // Retrieve refresh token from localStorage
         if (refresh) {
@@ -96,8 +98,16 @@ function LoginPage() {
             refreshToken(refresh); // Call refresh token function
         }
 
-        setIsAuthenticating(false);
+        setIsValidating(false);
     }, []);
+
+    if (isValidating) {
+        return (
+            <div className="flex items-center justify-center min-h-svh">
+                <SpinnerCard title="لطفا صبرکنید..." />
+            </div>
+        );
+    }
 
     return (
         <div className="flex items-center justify-center min-h-svh">

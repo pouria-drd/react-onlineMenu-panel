@@ -1,69 +1,19 @@
-import { useState, ChangeEvent, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { REFRESH_KEY } from "../constance/constance";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import axios from "axios";
 import ROUTES from "../router/routes";
 import SpinnerCard from "../components/ui/spinner/SpinnerCard";
-
-import { useAuth } from "../contexts/AuthContext";
-import { REFRESH_KEY } from "../constance/constance";
-import { Button, Card, Input } from "../components/ui";
-import { useToast } from "../components/ui/toast/ToastProvider";
+import LoginForm from "../components/forms/LoginForm";
 
 function LoginPage() {
     const navigate = useNavigate();
-    const { showToast } = useToast();
     const { login, logout } = useAuth();
     const [searchParams] = useSearchParams();
 
     const [isValidating, setIsValidating] = useState<boolean>(false);
-    const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
-
-    const [loginData, setLoginData] = useState<LoginData>({
-        username: "",
-        password: "",
-    });
-
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setLoginData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
-
-    // Function to handle user login
-    const handleLogin = async () => {
-        setIsAuthenticating(true);
-        try {
-            // Send login request to API
-            const response = await axios.post<LoginResponse>(
-                `${import.meta.env.VITE_API_URL}auth/token/`,
-                loginData
-            );
-
-            // Call login function to update tokens and authentication status
-            login(response.data.access, response.data.refresh);
-
-            // Redirect to nextUrl if provided, otherwise navigate to dashboard
-            const nextUrl = searchParams.get("next");
-            if (nextUrl) {
-                navigate(nextUrl);
-            } else {
-                navigate(ROUTES.DASHBOARD);
-            }
-
-            showToast("خوش آمدید!", "success");
-        } catch (error) {
-            showToast(
-                "نام کاربری / رمز عبور نادرست  می‌باشد!",
-                "danger",
-                "خطا"
-            );
-            // console.error("Login failed", error); // Log error message if login fails
-        }
-        setIsAuthenticating(false);
-    };
 
     // Effect to check for refresh token on component mount
     useEffect(() => {
@@ -111,34 +61,7 @@ function LoginPage() {
 
     return (
         <div className="flex items-center justify-center min-h-svh">
-            <Card title="ورود">
-                <Input
-                    type="text"
-                    name="username"
-                    value={loginData.username}
-                    onChange={handleInputChange}
-                    placeholder="نام کاربری"
-                />
-                <Input
-                    type="password"
-                    name="password"
-                    value={loginData.password}
-                    onChange={handleInputChange}
-                    placeholder="رمز عبور"
-                />
-                <Button
-                    className="w-full"
-                    onClick={handleLogin}
-                    disabled={
-                        isAuthenticating ||
-                        !(
-                            loginData.username.length > 3 &&
-                            loginData.password.length > 8
-                        )
-                    }>
-                    ورود
-                </Button>
-            </Card>
+            <LoginForm />
         </div>
     );
 }

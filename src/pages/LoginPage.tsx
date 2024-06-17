@@ -5,8 +5,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import axios from "axios";
 import ROUTES from "../router/routes";
-import SpinnerCard from "../components/ui/spinner/SpinnerCard";
 import LoginForm from "../components/forms/LoginForm";
+import SpinnerCard from "../components/ui/spinner/SpinnerCard";
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -51,17 +51,13 @@ function LoginPage() {
         setIsValidating(false);
     }, []);
 
-    if (isValidating) {
-        return (
-            <div className="flex items-center justify-center min-h-svh">
-                <SpinnerCard title="لطفا صبرکنید..." />
-            </div>
-        );
-    }
-
     return (
         <div className="flex items-center justify-center min-h-svh">
-            <LoginForm />
+            {isValidating ? (
+                <SpinnerCard title="لطفا صبر کنید..." />
+            ) : (
+                <LoginForm />
+            )}
         </div>
     );
 }

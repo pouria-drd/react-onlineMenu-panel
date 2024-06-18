@@ -1,4 +1,4 @@
-interface Menu {
+interface MenuDetail {
     menuName: string;
     categories: Category[];
 }
@@ -6,7 +6,6 @@ interface Menu {
 interface Category {
     id: string;
     menu: string;
-    menuName: string;
     name: string;
     icon?: string;
     isActive: boolean;

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Button } from "../../components/ui";
 import { useToast } from "../../components/ui/toast/ToastProvider";
 
 import api from "../../api/axiosInstance";
@@ -7,21 +8,20 @@ import Category from "../../components/menu/category/Category";
 import ItemContainer from "../../components/menu/ItemContainer";
 import SpinnerCard from "../../components/ui/spinner/SpinnerCard";
 import PageHeader from "../../components/navbar/PageHeader";
-import { Button } from "../../components/ui";
 
 function DashboardPage() {
     const { showToast } = useToast();
-    const [menu, setMenu] = useState<Menu | null>(null);
+    const [menu, setMenu] = useState<MenuDetail | null>(null);
 
     useEffect(() => {
         const getCategories = async () => {
             try {
-                const response = await api.get<Menu>("categories/");
+                const response = await api.get<MenuDetail>("categories/");
 
                 if (response.status === 200) {
                     setMenu(response.data);
-                    console.log(response.data);
-                    console.log(response.data.categories);
+                    // console.log(response.data);
+                    // console.log(response.data.categories);
                 }
             } catch (error) {
                 showToast(
@@ -29,7 +29,7 @@ function DashboardPage() {
                     "danger",
                     "خطا"
                 );
-                console.error(error);
+                // console.error(error);
             }
         };
 

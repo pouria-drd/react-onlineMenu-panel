@@ -6,7 +6,7 @@ const ItemCard = ({ children }: ItemCardProps) => {
     return (
         <div
             className=" bg-white overflow-hidden
-            flex flex-col gap-10
+            flex flex-col gap-4
             w-full sm:max-w-xs rounded-xl shadow-lg p-6 r2l">
             {children}
         </div>

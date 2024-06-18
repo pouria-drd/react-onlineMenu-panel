@@ -1,8 +1,13 @@
 interface ItemActionProps {
-    children: React.ReactNode;
+    className?: string;
+    children?: React.ReactNode;
 }
-const ItemAction = ({ children }: ItemActionProps) => {
-    return <div className="flex justify-between gap-2 h-11">{children}</div>;
+const ItemAction = ({ className, children }: ItemActionProps) => {
+    return (
+        <div className={`flex justify-between gap-2 h-11 mt-2 ${className}`}>
+            {children}
+        </div>
+    );
 };
 
 export default ItemAction;

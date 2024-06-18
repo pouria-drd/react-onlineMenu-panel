@@ -2,11 +2,11 @@ import ROUTES from "./routes";
 import { useAuth } from "../contexts/AuthContext";
 import { Outlet, Navigate } from "react-router-dom";
 
-interface ProtectedRouteProps {
+interface RouteGuardProps {
     nextUrl: string;
 }
 
-const ProtectedRoute = ({ nextUrl }: ProtectedRouteProps) => {
+const RouteGuard = ({ nextUrl }: RouteGuardProps) => {
     const { isAuthorized } = useAuth();
 
     if (isAuthorized === null) {
@@ -30,4 +30,4 @@ const ProtectedRoute = ({ nextUrl }: ProtectedRouteProps) => {
     return <Outlet />;
 };
 
-export default ProtectedRoute;
+export default RouteGuard;

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Button, StatusBadge } from "../../ui";
 
 import ItemCard from "../ItemCard";
@@ -6,12 +7,19 @@ import ItemTitle from "../ItemTitle";
 import ItemHeader from "../ItemHeader";
 import ItemAction from "../ItemAction";
 import DateBadge from "../../ui/badge/DateBadge";
+import ROUTES from "../../../router/routes";
 
 interface CategoryProps {
     category: Category;
 }
 
 const Category = ({ category }: CategoryProps) => {
+    const navigate = useNavigate();
+
+    const handleCategoryDetailView = () => {
+        navigate(ROUTES.CATEGORY_DETAIL + "/" + category.id);
+    };
+
     return (
         <ItemCard>
             <ItemHeader>
@@ -28,7 +36,10 @@ const Category = ({ category }: CategoryProps) => {
                 updatedAt={category.updatedAt}
             />
             <ItemAction>
-                <Button btnType="light" className="w-full">
+                <Button
+                    btnType="light"
+                    className="w-full"
+                    onClick={handleCategoryDetailView}>
                     محصولات
                 </Button>
                 <Button btnType="light" className="w-full">

@@ -1,9 +1,12 @@
+const categoriesUrl = "/categories";
+
 const ROUTES = {
     AUTH: "/",
     NOT_FOUND_ROUTE: "/*",
+    // Private routes
     DASHBOARD: "/dashboard",
     PROTECTED: "/protected",
-    UNAUTHORIZED: "/unauthorized",
+    CATEGORY_DETAIL: categoriesUrl,
 };
 
 export default ROUTES;

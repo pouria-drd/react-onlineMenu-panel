@@ -57,7 +57,7 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
             <div
                 className="fixed transition-all
                 flex flex-col-reverse gap-4 
-                bottom-5 right-4  w-full sm:w-fit px-4 z-[999]">
+                bottom-5 right-0 sm:right-4 w-full sm:w-fit px-4 z-[999]">
                 {toasts}
             </div>
         </ToastContext.Provider>

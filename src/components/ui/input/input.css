@@ -1,5 +1,6 @@
 .my-custom-input {
     @apply bg-gray-50 transition-all font-yekanX 
+    border focus:border-none
     outline-none focus:outline-blue-500
     placeholder:text-gray-400
     rounded px-4 py-2 w-full;

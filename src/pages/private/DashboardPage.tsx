@@ -1,40 +1,64 @@
 import { useEffect, useState } from "react";
+import { useToast } from "../../components/ui/toast/ToastProvider";
+
 import api from "../../api/axiosInstance";
+import PageLayout from "../../components/layouts/PageLayout";
+import Category from "../../components/menu/category/Category";
+import ItemContainer from "../../components/menu/ItemContainer";
+import SpinnerCard from "../../components/ui/spinner/SpinnerCard";
+import PageHeader from "../../components/navbar/PageHeader";
+import { Button } from "../../components/ui";
 
 function DashboardPage() {
-    const [categories, setCategories] = useState<Category[]>([]);
+    const { showToast } = useToast();
+    const [menu, setMenu] = useState<Menu | null>(null);
 
     useEffect(() => {
         const getCategories = async () => {
             try {
-                const response = await api.get<Category[]>("categories/");
+                const response = await api.get<Menu>("categories/");
 
-                console.log(response.data);
-                setCategories(response.data);
+                if (response.status === 200) {
+                    setMenu(response.data);
+                    console.log(response.data);
+                    console.log(response.data.categories);
+                }
             } catch (error) {
-                console.log(error);
+                showToast(
+                    "دریافت اطلاعات ناموفق بود، دوباره تلاش کنید!",
+                    "danger",
+                    "خطا"
+                );
+                console.error(error);
             }
         };
 
         getCategories();
     }, []);
 
-    return (
-        <div>
-            DashboardPage
-            <div
-                className="bg-white
-                flex flex-col items-center justify-center gap-4
-                w-full">
-                {categories.map((category) => (
-                    <p
-                        className="odd:bg-gray-100 even:bg-slate-200"
-                        key={category.id}>
-                        {category.name}
-                    </p>
-                ))}
+    if (menu === null) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-screen">
+                <SpinnerCard title="درحال دریافت اطلاعات" />
             </div>
-        </div>
+        );
+    }
+
+    return (
+        <PageLayout>
+            <PageHeader className="flex items-center justify-between">
+                <Button outlined={true}>دسته‌بندی جدید</Button>
+                <h1 className="text-2xl font-bold text-center">
+                    {menu.menuName}
+                </h1>
+            </PageHeader>
+
+            <ItemContainer>
+                {menu.categories.map((category, index) => (
+                    <Category key={index} category={category} />
+                ))}
+            </ItemContainer>
+        </PageLayout>
     );
 }
 

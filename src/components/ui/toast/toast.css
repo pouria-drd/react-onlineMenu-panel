@@ -1,6 +1,6 @@
 .toast {
     @apply transition-all cursor-default font-yekanX
-  rounded-lg rounded-b-none shadow-lg pr-5 pt-2 pb-4 w-full sm:w-96;
+    rounded-lg rounded-b-none shadow-lg pr-5 pt-2 pb-4 w-full sm:w-96;
 
     &.success {
         @apply bg-green-50 text-green-700;

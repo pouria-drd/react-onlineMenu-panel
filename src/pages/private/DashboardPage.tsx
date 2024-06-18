@@ -22,36 +22,32 @@ function DashboardPage() {
         setOpenNewCatForm(true);
     };
 
-    useEffect(() => {
-        const getCategories = async () => {
-            try {
-                const response = await api.get<MenuDetail>("categories/");
+    const getCategories = async () => {
+        try {
+            const response = await api.get<MenuDetail>("categories/");
 
-                if (response.status === 200) {
-                    setMenu(response.data);
-                    // console.log(response);
-                }
-            } catch (error: any) {
-                setMenu(() => {
-                    return { categories: [], menuName: "" };
-                });
-                if (error.response.status && error.response.status === 404) {
-                    showToast(
-                        "دسته ای برای نمایش وجود ندارد!",
-                        "warning",
-                        "توجه"
-                    );
-                } else {
-                    showToast(
-                        "دریافت اطلاعات ناموفق بود، دوباره تلاش کنید!",
-                        "danger",
-                        "خطا"
-                    );
-                }
-                // console.error(error);
+            if (response.status === 200) {
+                setMenu(response.data);
+                // console.log(response);
             }
-        };
+        } catch (error: any) {
+            setMenu(() => {
+                return { categories: [], menuName: "" };
+            });
+            if (error.response.status && error.response.status === 404) {
+                showToast("دسته ای برای نمایش وجود ندارد!", "warning", "توجه");
+            } else {
+                showToast(
+                    "دریافت اطلاعات ناموفق بود، دوباره تلاش کنید!",
+                    "danger",
+                    "خطا"
+                );
+            }
+            // console.error(error);
+        }
+    };
 
+    useEffect(() => {
         getCategories();
     }, []);
 
@@ -88,7 +84,12 @@ function DashboardPage() {
 
             {openNewCatForm && (
                 <Modal onClose={() => setOpenNewCatForm(false)}>
-                    <NewCategoryForm />
+                    <NewCategoryForm
+                        onSuccess={() => {
+                            getCategories();
+                            setOpenNewCatForm(false);
+                        }}
+                    />
                 </Modal>
             )}
         </>

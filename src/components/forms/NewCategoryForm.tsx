@@ -5,7 +5,12 @@ import { useToast } from "../ui/toast/ToastProvider";
 import api from "../../api/axiosInstance";
 import ImageDropzone from "../ImageDropzone";
 
-const NewCategoryForm = () => {
+interface NewCategoryFormProps {
+    onFailed?: () => void;
+    onSuccess?: () => void;
+}
+
+const NewCategoryForm = ({ onFailed, onSuccess }: NewCategoryFormProps) => {
     const { showToast } = useToast();
 
     const [categoryData, setCategoryData] = useState<CategoryFormData>({
@@ -28,19 +33,24 @@ const NewCategoryForm = () => {
 
     const handleCreateCategory = async () => {
         try {
-            const response = await api.post("categories/", {
-                icon: categoryData.icon,
-                name: categoryData.name,
-                is_active: categoryData.isActive,
-            });
+            const formData = new FormData();
+            formData.append("name", categoryData.name);
+            if (categoryData.icon) {
+                formData.append("icon", categoryData.icon);
+            }
+            formData.append("isActive", String(categoryData.isActive));
 
-            console.log(response);
+            const response = await api.post("categories/", formData);
+
+            // console.log(response);
 
             if (response.status === 201) {
+                onSuccess?.();
                 showToast("دسته بندی جدید ایجاد شد!", "success", "عملیات موفق");
             }
         } catch (error: any) {
-            console.log(error);
+            // console.log(error);
+            onFailed?.();
             showToast("دسته بندی ایجاد نشد!", "danger", "خطا");
         }
     };

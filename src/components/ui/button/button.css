@@ -18,11 +18,11 @@
     }
 
     &.dark {
-        @apply bg-gray-800 text-white;
+        @apply bg-gray-700 text-white hover:brightness-90;
     }
 
     &.light {
-        @apply bg-white text-gray-800;
+        @apply bg-gray-100 text-gray-800;
     }
 
     &.danger {
@@ -53,13 +53,13 @@
     }
 
     &.outlined-dark {
-        @apply border border-gray-800 text-gray-800
-      hover:bg-gray-800 hover:text-white hover:brightness-100;
+        @apply border border-gray-700 text-gray-700
+      hover:bg-gray-700 hover:text-white hover:brightness-100;
     }
 
     &.outlined-light {
-        @apply border border-white text-white
-      hover:bg-white hover:text-gray-800 hover:brightness-100;
+        @apply border border-gray-100 text-gray-800
+      hover:bg-gray-100 hover:brightness-100;
     }
 
     &.outlined-danger {

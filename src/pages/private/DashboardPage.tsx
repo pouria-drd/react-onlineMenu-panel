@@ -47,8 +47,11 @@ function DashboardPage() {
     return (
         <PageLayout>
             <PageHeader className="flex items-center justify-between">
-                <Button className="text-xs sm:text-base" outlined={true}>
-                    دسته‌بندی جدید
+                <Button
+                    className="text-xs sm:text-base"
+                    btnType="dark"
+                    outlined={true}>
+                    دسته‌ جدید
                 </Button>
                 <h1 className="text-2xl font-bold text-center">
                     {menu.menuName}

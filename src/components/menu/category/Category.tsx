@@ -28,8 +28,12 @@ const Category = ({ category }: CategoryProps) => {
                 updatedAt={category.updatedAt}
             />
             <ItemAction>
-                <Button className="w-full">محصولات</Button>
-                <Button className="w-full">ویرایش</Button>
+                <Button btnType="light" className="w-full">
+                    محصولات
+                </Button>
+                <Button btnType="light" className="w-full">
+                    ویرایش
+                </Button>
             </ItemAction>
         </ItemCard>
     );

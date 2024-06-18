@@ -31,16 +31,26 @@ const CategoryDetail = () => {
                 if (response.status === 200) {
                     setCategory(response.data);
                     // console.log(response.data);
-                    // console.log(response.data.products);
                 }
 
                 console.log(response.data);
-            } catch (error) {
-                showToast(
-                    "دریافت اطلاعات ناموفق بود، دوباره تلاش کنید!",
-                    "danger",
-                    "خطا"
-                );
+            } catch (error: any) {
+                setCategory(() => {
+                    return { products: [], categoryName: "" };
+                });
+                if (error.response.status && error.response.status === 404) {
+                    showToast(
+                        "محصولی ای برای نمایش وجود ندارد!",
+                        "warning",
+                        "توجه"
+                    );
+                } else {
+                    showToast(
+                        "دریافت اطلاعات ناموفق بود، دوباره تلاش کنید!",
+                        "danger",
+                        "خطا"
+                    );
+                }
                 // console.error(error);
             }
         };

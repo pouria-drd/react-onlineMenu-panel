@@ -20,15 +20,25 @@ function DashboardPage() {
 
                 if (response.status === 200) {
                     setMenu(response.data);
-                    // console.log(response.data);
-                    // console.log(response.data.categories);
+                    // console.log(response);
                 }
-            } catch (error) {
-                showToast(
-                    "دریافت اطلاعات ناموفق بود، دوباره تلاش کنید!",
-                    "danger",
-                    "خطا"
-                );
+            } catch (error: any) {
+                setMenu(() => {
+                    return { categories: [], menuName: "" };
+                });
+                if (error.response.status && error.response.status === 404) {
+                    showToast(
+                        "دسته ای برای نمایش وجود ندارد!",
+                        "warning",
+                        "توجه"
+                    );
+                } else {
+                    showToast(
+                        "دریافت اطلاعات ناموفق بود، دوباره تلاش کنید!",
+                        "danger",
+                        "خطا"
+                    );
+                }
                 // console.error(error);
             }
         };

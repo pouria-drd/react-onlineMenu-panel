@@ -11,7 +11,7 @@ const DateBadge = ({ createdAt, updatedAt }: DateBadgeProps) => {
     };
 
     return (
-        <div className="text-gray-400 text-sm">
+        <div className="text-gray-400 text-sm ss02">
             <p>بروزرسانی: {formatDate(updatedAt)}</p>
             <p>ایحاد شده در: {formatDate(createdAt)}</p>
         </div>

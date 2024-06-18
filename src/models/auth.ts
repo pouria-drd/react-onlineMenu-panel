@@ -1,4 +1,4 @@
-interface LoginData {
+interface LoginFormData {
     username: string;
     password: string;
 }

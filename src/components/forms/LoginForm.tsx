@@ -15,7 +15,7 @@ const LoginForm = () => {
 
     const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
 
-    const [loginData, setLoginData] = useState<LoginData>({
+    const [loginData, setLoginData] = useState<LoginFormData>({
         username: "",
         password: "",
     });

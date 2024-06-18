@@ -3,15 +3,24 @@ import { Button } from "../../components/ui";
 import { useToast } from "../../components/ui/toast/ToastProvider";
 
 import api from "../../api/axiosInstance";
+import Modal from "../../components/ui/modal/Modal";
+import PageHeader from "../../components/navbar/PageHeader";
 import PageLayout from "../../components/layouts/PageLayout";
 import Category from "../../components/menu/category/Category";
 import ItemContainer from "../../components/menu/ItemContainer";
 import SpinnerCard from "../../components/ui/spinner/SpinnerCard";
-import PageHeader from "../../components/navbar/PageHeader";
+import NewCategoryForm from "../../components/forms/NewCategoryForm";
 
 function DashboardPage() {
     const { showToast } = useToast();
+
+    const [openNewCatForm, setOpenNewCatForm] = useState<boolean>(false);
+
     const [menu, setMenu] = useState<MenuDetail | null>(null);
+
+    const handleOpenModal = () => {
+        setOpenNewCatForm(true);
+    };
 
     useEffect(() => {
         const getCategories = async () => {
@@ -55,25 +64,34 @@ function DashboardPage() {
     }
 
     return (
-        <PageLayout>
-            <PageHeader className="flex items-center justify-between">
-                <Button
-                    className="text-xs sm:text-base"
-                    btnType="dark"
-                    outlined={true}>
-                    دسته‌ جدید
-                </Button>
-                <h1 className="text-2xl font-bold text-center">
-                    {menu.menuName}
-                </h1>
-            </PageHeader>
+        <>
+            <PageLayout>
+                <PageHeader className="flex items-center justify-between">
+                    <Button
+                        onClick={handleOpenModal}
+                        className="text-xs sm:text-base"
+                        btnType="dark"
+                        outlined={true}>
+                        دسته‌ جدید
+                    </Button>
+                    <h1 className="text-2xl font-bold text-center">
+                        {menu.menuName}
+                    </h1>
+                </PageHeader>
 
-            <ItemContainer>
-                {menu.categories.map((category, index) => (
-                    <Category key={index} category={category} />
-                ))}
-            </ItemContainer>
-        </PageLayout>
+                <ItemContainer>
+                    {menu.categories.map((category, index) => (
+                        <Category key={index} category={category} />
+                    ))}
+                </ItemContainer>
+            </PageLayout>
+
+            {openNewCatForm && (
+                <Modal onClose={() => setOpenNewCatForm(false)}>
+                    <NewCategoryForm />
+                </Modal>
+            )}
+        </>
     );
 }
 

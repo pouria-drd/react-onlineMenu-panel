@@ -12,3 +12,9 @@ interface Category {
     updatedAt: Date;
     createdAt: Date;
 }
+
+interface CategoryFormData {
+    name: string;
+    icon?: File | null;
+    isActive: boolean;
+}

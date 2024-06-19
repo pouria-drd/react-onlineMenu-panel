@@ -33,7 +33,7 @@ const CategoryDetail = () => {
                     // console.log(response.data);
                 }
 
-                console.log(response.data);
+                // console.log(response.data);
             } catch (error: any) {
                 setCategory(() => {
                     return { products: [], categoryName: "" };

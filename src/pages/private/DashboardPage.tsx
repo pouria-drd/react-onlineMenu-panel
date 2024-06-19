@@ -9,7 +9,7 @@ import PageLayout from "../../components/layouts/PageLayout";
 import Category from "../../components/menu/category/Category";
 import ItemContainer from "../../components/menu/ItemContainer";
 import SpinnerCard from "../../components/ui/spinner/SpinnerCard";
-import NewCategoryForm from "../../components/forms/NewCategoryForm";
+import CategoryForm from "../../components/forms/CategoryForm";
 
 function DashboardPage() {
     const { showToast } = useToast();
@@ -77,14 +77,23 @@ function DashboardPage() {
 
                 <ItemContainer>
                     {menu.categories.map((category, index) => (
-                        <Category key={index} category={category} />
+                        <Category
+                            key={index}
+                            category={category}
+                            onCategoryUpdate={() => {
+                                getCategories();
+                            }}
+                        />
                     ))}
                 </ItemContainer>
             </PageLayout>
 
             {openNewCatForm && (
-                <Modal onClose={() => setOpenNewCatForm(false)}>
-                    <NewCategoryForm
+                <Modal
+                    onClose={() => setOpenNewCatForm(false)}
+                    title="ایجاد دسته جدید">
+                    <CategoryForm
+                        method="post"
                         onSuccess={() => {
                             getCategories();
                             setOpenNewCatForm(false);

@@ -52,6 +52,10 @@ const LoginForm = () => {
             }
             showToast("خوش آمدید!", "success");
         } catch (error) {
+            setLoginData({
+                username: "",
+                password: "",
+            });
             showToast(
                 "نام کاربری / رمز عبور نادرست  می‌باشد!",
                 "danger",

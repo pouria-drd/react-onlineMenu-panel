@@ -5,18 +5,28 @@ import { useToast } from "../ui/toast/ToastProvider";
 import api from "../../api/axiosInstance";
 import ImageDropzone from "../ImageDropzone";
 
-interface NewCategoryFormProps {
+type CategoryFormProps = {
     onFailed?: () => void;
     onSuccess?: () => void;
-}
+} & (
+    | {
+          method: "patch";
+          category: Category;
+      }
+    | {
+          method: "post";
+      }
+);
 
-const NewCategoryForm = ({ onFailed, onSuccess }: NewCategoryFormProps) => {
+const CategoryForm = (props: CategoryFormProps) => {
     const { showToast } = useToast();
 
+    const [isSendingData, setIsSendingData] = useState<boolean>(false);
+
     const [categoryData, setCategoryData] = useState<CategoryFormData>({
-        name: "",
+        name: props.method === "post" ? "" : props.category.name,
         icon: null,
-        isActive: true,
+        isActive: props.method === "post" ? true : props.category.isActive,
     });
 
     const handleIconSelection = (file: File) => {
@@ -32,6 +42,8 @@ const NewCategoryForm = ({ onFailed, onSuccess }: NewCategoryFormProps) => {
     };
 
     const handleCreateCategory = async () => {
+        setIsSendingData(true);
+
         try {
             const formData = new FormData();
             formData.append("name", categoryData.name);
@@ -45,14 +57,47 @@ const NewCategoryForm = ({ onFailed, onSuccess }: NewCategoryFormProps) => {
             // console.log(response);
 
             if (response.status === 201) {
-                onSuccess?.();
+                props.onSuccess?.();
                 showToast("دسته بندی جدید ایجاد شد!", "success", "عملیات موفق");
             }
         } catch (error: any) {
             // console.log(error);
-            onFailed?.();
+            props.onFailed?.();
             showToast("دسته بندی ایجاد نشد!", "danger", "خطا");
         }
+
+        setIsSendingData(false);
+    };
+
+    const handlePatchCategory = async () => {
+        setIsSendingData(true);
+
+        try {
+            const formData = new FormData();
+            formData.append("name", categoryData.name);
+            if (categoryData.icon) {
+                formData.append("icon", categoryData.icon);
+            }
+            formData.append("isActive", String(categoryData.isActive));
+
+            const response = await api.patch(
+                `categories/${props.method === "patch" && props.category.id}/`,
+                formData
+            );
+
+            // console.log(response);
+
+            if (response.status === 200) {
+                props.onSuccess?.();
+                showToast("دسته بندی بروزرسانی شد!", "success", "عملیات موفق");
+            }
+        } catch (error: any) {
+            // console.log(error);
+            props.onFailed?.();
+            showToast("دسته بندی بروزرسانی نشد!", "danger", "خطا");
+        }
+
+        setIsSendingData(false);
     };
 
     return (
@@ -79,12 +124,16 @@ const NewCategoryForm = ({ onFailed, onSuccess }: NewCategoryFormProps) => {
             <ImageDropzone onFileSelected={handleIconSelection} />
 
             <Button
-                onClick={handleCreateCategory}
-                disabled={categoryData.name.length < 3}>
+                onClick={
+                    props.method === "post"
+                        ? handleCreateCategory
+                        : handlePatchCategory
+                }
+                disabled={categoryData.name.length < 3 || isSendingData}>
                 ثبت
             </Button>
         </div>
     );
 };
 
-export default NewCategoryForm;
+export default CategoryForm;

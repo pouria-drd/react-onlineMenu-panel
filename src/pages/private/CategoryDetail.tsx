@@ -108,7 +108,7 @@ const CategoryDetail = () => {
                     onClose={() => setOpenNewCatForm(false)}
                     title="ایجاد محصول جدید">
                     <ProductForm
-                        categoryId={categoryData.categoryId}
+                        categoryId={categoryData.categoryId || categoryId!}
                         method="post"
                         onSuccess={() => {
                             getProducts();

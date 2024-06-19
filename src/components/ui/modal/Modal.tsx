@@ -28,7 +28,7 @@ const Modal = (modalProps: ModalProps) => {
                 flex flex-col items-center justify-center gap-4
                 w-full max-w-xs rounded-lg p-4">
                 <div className="flex items-center justify-between gap-2 w-full r2l">
-                    <h3 className="text-xl">{title}</h3>
+                    <h3 className="text-xl truncate">{title}</h3>
                     <button onClick={handleCloseModal}>
                         <CloseIcon />
                     </button>

@@ -35,7 +35,7 @@ const CategoryDetail = () => {
 
             if (response.status === 200) {
                 setCategoryData(response.data);
-                console.log(response.data);
+                // console.log(response.data);
             }
 
             // console.log(response.data);

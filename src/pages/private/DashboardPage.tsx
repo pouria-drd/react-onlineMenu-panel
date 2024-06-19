@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "../../components/ui";
+import { useAuth } from "../../contexts/AuthContext";
 import { useToast } from "../../components/ui/toast/ToastProvider";
 
 import api from "../../api/axiosInstance";
@@ -12,6 +13,7 @@ import SpinnerCard from "../../components/ui/spinner/SpinnerCard";
 import CategoryForm from "../../components/forms/CategoryForm";
 
 function DashboardPage() {
+    const { logout } = useAuth();
     const { showToast } = useToast();
 
     const [openNewCategoryForm, setOpenNewCategoryForm] =
@@ -52,6 +54,11 @@ function DashboardPage() {
         getCategories();
     }, []);
 
+    const handleLogout = () => {
+        logout();
+        showToast("خروج موفقیت آمیز بود!", "success");
+    };
+
     if (menu === null) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen">
@@ -63,7 +70,17 @@ function DashboardPage() {
     return (
         <>
             <PageLayout>
-                <PageHeader className="flex items-center justify-between">
+                <PageHeader className="flex items-center justify-between gap-2">
+                    <Button
+                        onClick={handleLogout}
+                        className="text-xs sm:text-base"
+                        btnType="dark">
+                        خروچ
+                    </Button>
+                    <h1 className="text-2xl font-bold text-center">
+                        {menu.menuName}
+                    </h1>
+
                     <Button
                         onClick={handleOpenModal}
                         className="text-xs sm:text-base"
@@ -71,9 +88,6 @@ function DashboardPage() {
                         outlined={true}>
                         دسته‌ جدید
                     </Button>
-                    <h1 className="text-2xl font-bold text-center">
-                        {menu.menuName}
-                    </h1>
                 </PageHeader>
 
                 <ItemContainer>

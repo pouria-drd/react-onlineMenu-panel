@@ -5,9 +5,11 @@ import { useToast } from "../../components/ui/toast/ToastProvider";
 
 import ROUTES from "../../router/routes";
 import api from "../../api/axiosInstance";
+import Modal from "../../components/ui/modal/Modal";
 import PageHeader from "../../components/navbar/PageHeader";
 import Product from "../../components/menu/product/Product";
 import PageLayout from "../../components/layouts/PageLayout";
+import ProductForm from "../../components/forms/ProductForm";
 import ItemContainer from "../../components/menu/ItemContainer";
 import SpinnerCard from "../../components/ui/spinner/SpinnerCard";
 
@@ -15,50 +17,50 @@ const CategoryDetail = () => {
     const navigate = useNavigate();
     const { showToast } = useToast();
     const { categoryId } = useParams();
-    const [category, setCategory] = useState<CategoryDetail | null>(null);
+    const [categoryData, setCategoryData] = useState<CategoryDetail | null>(
+        null
+    );
 
     const handleGoBack = () => {
         navigate(ROUTES.DASHBOARD);
     };
 
-    useEffect(() => {
-        const getCategories = async () => {
-            try {
-                const response = await api.get<CategoryDetail>(
-                    `categories/${categoryId}/products/`
-                );
+    const [openNewProductForm, setOpenNewCatForm] = useState<boolean>(false);
 
-                if (response.status === 200) {
-                    setCategory(response.data);
-                    // console.log(response.data);
-                }
+    const getProducts = async () => {
+        try {
+            const response = await api.get<CategoryDetail>(
+                `categories/${categoryId}/products/`
+            );
 
-                // console.log(response.data);
-            } catch (error: any) {
-                setCategory(() => {
-                    return { products: [], categoryName: "" };
-                });
-                if (error.response.status && error.response.status === 404) {
-                    showToast(
-                        "محصولی ای برای نمایش وجود ندارد!",
-                        "warning",
-                        "توجه"
-                    );
-                } else {
-                    showToast(
-                        "دریافت اطلاعات ناموفق بود، دوباره تلاش کنید!",
-                        "danger",
-                        "خطا"
-                    );
-                }
-                // console.error(error);
+            if (response.status === 200) {
+                setCategoryData(response.data);
+                console.log(response.data);
             }
-        };
 
-        getCategories();
+            // console.log(response.data);
+        } catch (error: any) {
+            setCategoryData(() => {
+                return { products: [], categoryId: "", categoryName: "" };
+            });
+            if (error.response.status && error.response.status === 404) {
+                showToast("محصولی برای نمایش وجود ندارد!", "warning", "توجه");
+            } else {
+                showToast(
+                    "دریافت اطلاعات ناموفق بود، دوباره تلاش کنید!",
+                    "danger",
+                    "خطا"
+                );
+            }
+            // console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        getProducts();
     }, []);
 
-    if (category === null) {
+    if (categoryData === null) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen">
                 <SpinnerCard title="درحال دریافت اطلاعات" />
@@ -67,31 +69,55 @@ const CategoryDetail = () => {
     }
 
     return (
-        <PageLayout>
-            <PageHeader className="flex items-center justify-between">
-                <Button
-                    onClick={handleGoBack}
-                    className="text-xs sm:text-base"
-                    btnType="dark">
-                    بازگشت
-                </Button>
-                <h1 className="text-lg sm:text-2xl font-bold text-center">
-                    {category.categoryName} دسته‌بندی
-                </h1>
-                <Button
-                    className="text-xs sm:text-base"
-                    btnType="dark"
-                    outlined={true}>
-                    آیتم جدید
-                </Button>
-            </PageHeader>
+        <>
+            <PageLayout>
+                <PageHeader className="flex items-center justify-between gap-2">
+                    <Button
+                        onClick={handleGoBack}
+                        className="text-xs sm:text-base"
+                        btnType="dark">
+                        بازگشت
+                    </Button>
+                    <h1 className="text-2xl font-bold text-center">
+                        {categoryData.categoryName}
+                    </h1>
+                    <Button
+                        onClick={() => setOpenNewCatForm(true)}
+                        className="text-xs sm:text-base"
+                        btnType="dark"
+                        outlined={true}>
+                        محصول جدید
+                    </Button>
+                </PageHeader>
 
-            <ItemContainer>
-                {category.products.map((product, index) => (
-                    <Product key={index} product={product} />
-                ))}
-            </ItemContainer>
-        </PageLayout>
+                <ItemContainer>
+                    {categoryData.products.map((product, index) => (
+                        <Product
+                            onProductUpdate={() => {
+                                getProducts();
+                            }}
+                            key={index}
+                            product={product}
+                        />
+                    ))}
+                </ItemContainer>
+            </PageLayout>
+
+            {openNewProductForm && (
+                <Modal
+                    onClose={() => setOpenNewCatForm(false)}
+                    title="ایجاد محصول جدید">
+                    <ProductForm
+                        categoryId={categoryData.categoryId}
+                        method="post"
+                        onSuccess={() => {
+                            getProducts();
+                            setOpenNewCatForm(false);
+                        }}
+                    />
+                </Modal>
+            )}
+        </>
     );
 };
 

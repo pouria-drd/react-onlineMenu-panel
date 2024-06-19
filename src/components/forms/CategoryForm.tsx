@@ -46,11 +46,13 @@ const CategoryForm = (props: CategoryFormProps) => {
 
         try {
             const formData = new FormData();
+
             formData.append("name", categoryData.name);
+            formData.append("isActive", String(categoryData.isActive));
+
             if (categoryData.icon) {
                 formData.append("icon", categoryData.icon);
             }
-            formData.append("isActive", String(categoryData.isActive));
 
             const response = await api.post("categories/", formData);
 
@@ -74,11 +76,13 @@ const CategoryForm = (props: CategoryFormProps) => {
 
         try {
             const formData = new FormData();
+
             formData.append("name", categoryData.name);
+            formData.append("isActive", String(categoryData.isActive));
+
             if (categoryData.icon) {
                 formData.append("icon", categoryData.icon);
             }
-            formData.append("isActive", String(categoryData.isActive));
 
             const response = await api.patch(
                 `categories/${props.method === "patch" && props.category.id}/`,
@@ -130,7 +134,7 @@ const CategoryForm = (props: CategoryFormProps) => {
                         : handlePatchCategory
                 }
                 disabled={categoryData.name.length < 3 || isSendingData}>
-                ثبت
+                {props.method === "post" ? "ایجاد دسته" : "بروزرسانی"}
             </Button>
         </div>
     );

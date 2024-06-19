@@ -24,7 +24,8 @@ const Category = ({ category, onCategoryUpdate }: CategoryProps) => {
         navigate(ROUTES.CATEGORY_DETAIL + "/" + category.id);
     };
 
-    const [openPatchCatForm, setOpenPatchCatForm] = useState<boolean>(false);
+    const [openPatchCategoryForm, setOpenPatchCategoryForm] =
+        useState<boolean>(false);
 
     return (
         <>
@@ -51,7 +52,7 @@ const Category = ({ category, onCategoryUpdate }: CategoryProps) => {
                     </Button>
                     <Button
                         onClick={() => {
-                            setOpenPatchCatForm(true);
+                            setOpenPatchCategoryForm(true);
                         }}
                         btnType="light"
                         className="w-full">
@@ -60,16 +61,16 @@ const Category = ({ category, onCategoryUpdate }: CategoryProps) => {
                 </ItemAction>
             </ItemCard>
 
-            {openPatchCatForm && (
+            {openPatchCategoryForm && (
                 <Modal
-                    onClose={() => setOpenPatchCatForm(false)}
-                    title={`بروسرسانی دسته ${category.name}`}>
+                    onClose={() => setOpenPatchCategoryForm(false)}
+                    title={`بروزرسانی ${category.name}`}>
                     <CategoryForm
                         method="patch"
                         category={category}
                         onSuccess={() => {
                             onCategoryUpdate();
-                            setOpenPatchCatForm(false);
+                            setOpenPatchCategoryForm(false);
                         }}
                     />
                 </Modal>

@@ -14,12 +14,13 @@ import CategoryForm from "../../components/forms/CategoryForm";
 function DashboardPage() {
     const { showToast } = useToast();
 
-    const [openNewCatForm, setOpenNewCatForm] = useState<boolean>(false);
+    const [openNewCategoryForm, setOpenNewCategoryForm] =
+        useState<boolean>(false);
 
     const [menu, setMenu] = useState<MenuDetail | null>(null);
 
     const handleOpenModal = () => {
-        setOpenNewCatForm(true);
+        setOpenNewCategoryForm(true);
     };
 
     const getCategories = async () => {
@@ -88,15 +89,15 @@ function DashboardPage() {
                 </ItemContainer>
             </PageLayout>
 
-            {openNewCatForm && (
+            {openNewCategoryForm && (
                 <Modal
-                    onClose={() => setOpenNewCatForm(false)}
+                    onClose={() => setOpenNewCategoryForm(false)}
                     title="ایجاد دسته جدید">
                     <CategoryForm
                         method="post"
                         onSuccess={() => {
                             getCategories();
-                            setOpenNewCatForm(false);
+                            setOpenNewCategoryForm(false);
                         }}
                     />
                 </Modal>
